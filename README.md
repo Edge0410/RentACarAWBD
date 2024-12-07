@@ -32,3 +32,9 @@ Astfel, utilizatorii autorizati din cadrul acestui business pot vizualiza masini
 ## Baza de date a aplicatiei
 
 ![image](https://github.com/user-attachments/assets/ec713199-545c-4e52-8f0f-1b9ea1fddf43)
+
+Se pot observa urmatoarele:
+
+- Tabelele de entitati **users**, **bookings**, **cars**, **payments**, **manufacturers**
+- Tabela de **audit**
+- Relatiile sunt one to many in mare parte, mai putin intre **bookings** si **cars**, unde acel many-to-many a fost rezolvat printr-o tabela de legatura numita **booked_cars**
