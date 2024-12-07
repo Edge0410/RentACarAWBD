@@ -28,3 +28,7 @@ Astfel, utilizatorii autorizati din cadrul acestui business pot vizualiza masini
 - Calcularea automata a costului de inchiriere
 - Filtrarea caracteristicilor masinilor sau a interactiunii clientelei
 - Autorizarea rezervarilor doar pentru masini disponibile si clienti care nu au mai mult de 5 masini inchiriate simultan.
+
+## Baza de date a aplicatiei
+
+![image](https://github.com/user-attachments/assets/ec713199-545c-4e52-8f0f-1b9ea1fddf43)
