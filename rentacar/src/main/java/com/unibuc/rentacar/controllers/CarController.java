@@ -2,6 +2,7 @@ package com.unibuc.rentacar.controllers;
 
 import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.services.CarService;
+import com.unibuc.rentacar.services.AuditService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class CarController {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private AuditService auditService;
 
     // Get all cars
     @GetMapping
@@ -32,6 +36,7 @@ public class CarController {
     @PostMapping
     public ResponseEntity<String> createCar(@Valid @RequestBody Car car) {
         carService.createCar(car);
+        auditService.createAudit("A " + car.getModel() + " Car was added into the shop.");
         return ResponseEntity.ok("Car created successfully.");
     }
 
@@ -39,6 +44,7 @@ public class CarController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCar(@PathVariable Integer id, @Valid @RequestBody Car car) {
         carService.updateCar(id, car);
+        auditService.createAudit(car.getModel() + " Car has been modified.");
         return ResponseEntity.ok("Car updated successfully.");
     }
 
