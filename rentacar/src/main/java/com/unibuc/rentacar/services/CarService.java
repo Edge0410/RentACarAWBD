@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CarService implements ICarService{
+public class CarService {
 
     @Autowired
     private CarRepository carRepository;
@@ -18,24 +18,27 @@ public class CarService implements ICarService{
         return carRepository.findAll();
     }
 
-    // Method to find a car by ID
-    @Override
-    public Car getCarById(Integer id) {
-        return carRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Car not found with ID: " + id));
+    public Optional<Car> getCarById(Integer id) {
+        return carRepository.findById(id);
     }
 
-    // Method to save a car (insert or update)
-    public int createCar(Car car) {
+    public Car saveCar(Car car) {
         return carRepository.save(car);
     }
 
-    // Method to update a car by ID
-    public int updateCar(Integer id, Car car) {
-        return carRepository.update(id, car);
+    public Car updateCar(Integer id, Car carDetails) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.setModel(carDetails.getModel());
+        car.setMileage(carDetails.getMileage());
+        car.setFuelType(carDetails.getFuelType());
+        car.setRentalPrice(carDetails.getRentalPrice());
+        car.setManufacturer(carDetails.getManufacturer());
+
+        return carRepository.save(car);
     }
 
-    // Method to delete a car by ID
     public void deleteCar(Integer id) {
         carRepository.deleteById(id);
     }

@@ -1,15 +1,22 @@
 package com.unibuc.rentacar.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import lombok.Data;
-
+@Entity
 @Data
+@Table(name = "cars")
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Manufacturer ID is required")
-    private Integer manufacturerId;
+    @ManyToOne
+    @JoinColumn(name = "manufacturer_id", nullable = false)
+    @JsonBackReference
+    private Manufacturer manufacturer;
 
     @NotBlank(message = "Model name cannot be blank")
     @Size(max = 50, message = "Model name must not exceed 50 characters")

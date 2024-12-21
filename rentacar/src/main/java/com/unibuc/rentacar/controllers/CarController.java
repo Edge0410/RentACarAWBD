@@ -2,8 +2,6 @@ package com.unibuc.rentacar.controllers;
 
 import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.services.CarService;
-import com.unibuc.rentacar.services.AuditService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,38 +15,26 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @Autowired
-    private AuditService auditService;
-
-    // Get all cars
     @GetMapping
     public List<Car> getAllCars() {
         return carService.getAllCars();
     }
 
-    // Get a car by ID
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Integer id) {
-        return ResponseEntity.ok(carService.getCarById(id));
+        return ResponseEntity.ok(carService.getCarById(id).orElseThrow());
     }
 
-    // Create a new car
     @PostMapping
-    public ResponseEntity<String> createCar(@Valid @RequestBody Car car) {
-        carService.createCar(car);
-        auditService.createAudit("A " + car.getModel() + " Car was added into the shop.");
-        return ResponseEntity.ok("Car created successfully.");
+    public ResponseEntity<Car> createCar(@RequestBody Car car) {
+        return ResponseEntity.ok(carService.saveCar(car));
     }
 
-    // Update an existing car
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCar(@PathVariable Integer id, @Valid @RequestBody Car car) {
-        carService.updateCar(id, car);
-        auditService.createAudit(car.getModel() + " Car has been modified.");
-        return ResponseEntity.ok("Car updated successfully.");
+    public ResponseEntity<Car> updateCar(@PathVariable Integer id, @RequestBody Car car) {
+        return ResponseEntity.ok(carService.updateCar(id, car));
     }
 
-    // Delete a car by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable Integer id) {
         carService.deleteCar(id);
