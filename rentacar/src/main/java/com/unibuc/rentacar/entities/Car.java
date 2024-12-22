@@ -1,10 +1,14 @@
 package com.unibuc.rentacar.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import lombok.Data;
+
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "cars")
@@ -17,6 +21,10 @@ public class Car {
     @JoinColumn(name = "manufacturer_id", nullable = false)
     @JsonBackReference
     private Manufacturer manufacturer;
+
+    @ManyToMany(mappedBy = "cars")
+    @JsonIgnore
+    private List<Booking> bookings;
 
     @NotBlank(message = "Model name cannot be blank")
     @Size(max = 50, message = "Model name must not exceed 50 characters")
