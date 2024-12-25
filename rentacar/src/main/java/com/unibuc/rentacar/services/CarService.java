@@ -1,10 +1,12 @@
 package com.unibuc.rentacar.services;
 
 import com.unibuc.rentacar.entities.Car;
+import com.unibuc.rentacar.exception.NoAvailableCarsException;
 import com.unibuc.rentacar.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,17 @@ public class CarService {
     public Optional<Car> getCarById(Integer id) {
         return carRepository.findById(id);
     }
+
+    public List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate) {
+        List<Car> availableCars = carRepository.findAvailableCars(startDate, endDate);
+
+        if (availableCars.isEmpty()) {
+            throw new NoAvailableCarsException("No cars available for the selected date range.");
+        }
+
+        return availableCars;
+    }
+
 
     public Car saveCar(Car car) {
         return carRepository.save(car);

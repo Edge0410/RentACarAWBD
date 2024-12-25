@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,18 @@ public class CarController {
     @GetMapping("/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Integer id) {
         return ResponseEntity.ok(carService.getCarById(id).orElseThrow());
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Car>> getAvailableCars(
+            @RequestParam String startDate,
+            @RequestParam String endDate
+    ) {
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        List<Car> availableCars = carService.getAvailableCars(start, end);
+        return ResponseEntity.ok(availableCars);
     }
 
     @PostMapping

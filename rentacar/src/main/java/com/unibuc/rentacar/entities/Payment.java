@@ -20,4 +20,11 @@ public class Payment {
     private Double amount;
     private LocalDateTime paymentDate;
     private String paymentMethod;
+
+    @PrePersist
+    protected void onCreate() {
+        if (paymentDate == null) {
+            paymentDate = LocalDateTime.now();
+        }
+    }
 }

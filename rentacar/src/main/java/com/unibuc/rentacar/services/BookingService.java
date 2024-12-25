@@ -1,6 +1,7 @@
 package com.unibuc.rentacar.services;
 
 import com.unibuc.rentacar.entities.Booking;
+import com.unibuc.rentacar.entities.User;
 import com.unibuc.rentacar.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,8 @@ public class BookingService {
     }
 
     public Booking updateBooking(Integer id, Booking bookingDetails) {
-        Booking booking = getBookingById(id);
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
         booking.setStartDate(bookingDetails.getStartDate());
         booking.setEndDate(bookingDetails.getEndDate());
         booking.setStatus(bookingDetails.getStatus());

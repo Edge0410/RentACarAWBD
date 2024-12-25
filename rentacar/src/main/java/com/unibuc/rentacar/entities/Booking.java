@@ -3,7 +3,8 @@ package com.unibuc.rentacar.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,12 +32,12 @@ public class Booking {
     private List<Payment> payments;
 
     @Column(name = "start_date", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
     @Column(nullable = false)
     private String status;
