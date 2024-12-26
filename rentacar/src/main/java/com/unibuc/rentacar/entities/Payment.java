@@ -1,5 +1,6 @@
 package com.unibuc.rentacar.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "booking_id", nullable = false)
+    @JsonBackReference
     private Booking booking;
 
     private Double amount;
@@ -22,6 +24,7 @@ public class Payment {
     private String paymentMethod;
 
     @PrePersist
+    @PreUpdate
     protected void onCreate() {
         if (paymentDate == null) {
             paymentDate = LocalDateTime.now();
