@@ -2,6 +2,7 @@ package com.unibuc.rentacar.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -19,8 +20,14 @@ public class Payment {
     @JsonBackReference
     private Booking booking;
 
+    @Column(nullable = false)
+    @Positive(message = "Amount must be positive")
     private Double amount;
+
+    @Column(nullable = false)
     private LocalDateTime paymentDate;
+
+    @Column(nullable = false)
     private String paymentMethod;
 
     @PrePersist

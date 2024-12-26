@@ -2,6 +2,7 @@ package com.unibuc.rentacar.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.unibuc.rentacar.json.FuelType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -26,18 +27,18 @@ public class Car {
     @JsonIgnore
     private List<Booking> bookings;
 
-    @NotBlank(message = "Model name cannot be blank")
+    @Column(nullable = false)
     @Size(max = 50, message = "Model name must not exceed 50 characters")
     private String model;
 
+    @Column(nullable = false)
     @Min(value = 0, message = "Mileage cannot be negative")
     private Integer mileage;
 
-    @NotBlank(message = "Fuel type is required")
-    @Pattern(regexp = "Petrol|Diesel|Electric|Hybrid", message = "Fuel type must be one of: Petrol, Diesel, Electric, or Hybrid")
-    private String fuelType;
+    @Column(nullable = false)
+    private FuelType fuelType;
 
-    @NotNull(message = "Rental price is required")
-    @Positive(message = "Rental price must be positive")
+    @Column(nullable = false)
+    @PositiveOrZero(message = "Rental price must be positive")
     private Double rentalPrice;
 }

@@ -1,6 +1,8 @@
 package com.unibuc.rentacar.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,12 +13,12 @@ public class Audit {
     private Integer id;
 
     @Column(nullable = false)
+    @NotBlank
     private String event;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    // Constructors
     public Audit() {
     }
 
@@ -32,21 +34,5 @@ public class Audit {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
     }
 }

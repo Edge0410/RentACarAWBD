@@ -5,6 +5,8 @@ import com.unibuc.rentacar.json.BookingStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -48,6 +50,7 @@ public class Booking {
     private BookingStatus status;
 
     @Column(name = "total_price", nullable = false)
+    @PositiveOrZero
     private Double totalPrice;
 
     @AssertTrue(message = "Start date must be before end date")
