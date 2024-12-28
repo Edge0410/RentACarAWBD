@@ -2,6 +2,7 @@ package com.unibuc.rentacar.services;
 
 import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.exception.NoAvailableCarsException;
+import com.unibuc.rentacar.json.FuelType;
 import com.unibuc.rentacar.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,22 @@ public class CarService {
 
     public List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate) {
         List<Car> availableCars = carRepository.findAvailableCars(startDate, endDate);
+
+        if (availableCars.isEmpty()) {
+            throw new NoAvailableCarsException("No cars available for the selected date range.");
+        }
+
+        return availableCars;
+    }
+
+    public List<Car> getAvailableCarsWithFilters(
+            LocalDate startDate,
+            LocalDate endDate,
+            Integer manufacturerId,
+            FuelType fuelType,
+            Double maxRentalPrice) {
+
+        List<Car> availableCars =  carRepository.findAvailableCarsWithFilters(startDate, endDate, manufacturerId, fuelType, maxRentalPrice);
 
         if (availableCars.isEmpty()) {
             throw new NoAvailableCarsException("No cars available for the selected date range.");

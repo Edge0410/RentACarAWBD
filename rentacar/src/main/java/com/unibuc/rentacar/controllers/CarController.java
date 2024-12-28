@@ -1,6 +1,7 @@
 package com.unibuc.rentacar.controllers;
 
 import com.unibuc.rentacar.entities.Car;
+import com.unibuc.rentacar.json.FuelType;
 import com.unibuc.rentacar.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,21 @@ public class CarController {
         LocalDate end = LocalDate.parse(endDate);
 
         List<Car> availableCars = carService.getAvailableCars(start, end);
+        return ResponseEntity.ok(availableCars);
+    }
+
+    @GetMapping("/availableFiltered")
+    public ResponseEntity<List<Car>> getAvailableCarsWithFilters(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam(required = false) Integer manufacturerId,
+            @RequestParam(required = false) FuelType fuelType,
+            @RequestParam(required = false) Double maxRentalPrice) {
+
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        List<Car> availableCars = carService.getAvailableCarsWithFilters(start, end, manufacturerId, fuelType, maxRentalPrice);
         return ResponseEntity.ok(availableCars);
     }
 
