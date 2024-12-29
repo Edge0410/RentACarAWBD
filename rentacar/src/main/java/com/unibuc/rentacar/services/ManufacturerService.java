@@ -1,6 +1,5 @@
 package com.unibuc.rentacar.services;
 
-import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.entities.Manufacturer;
 import com.unibuc.rentacar.repositories.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class ManufacturerService {
         return manufacturerRepository.findById(id);
     }
 
-    public Manufacturer saveManufacturer(Manufacturer manufacturer) {
+    public Manufacturer createManufacturer(Manufacturer manufacturer) {
         return manufacturerRepository.save(manufacturer);
     }
 

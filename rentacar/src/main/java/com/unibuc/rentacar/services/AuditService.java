@@ -18,7 +18,7 @@ public class AuditService{
         return auditRepository.findAll();
     }
 
-    public Audit createAudit(String event) {
+    public Audit logAudit(String event) {
         Audit audit = new Audit(event, LocalDateTime.now());
         return auditRepository.save(audit);
     }

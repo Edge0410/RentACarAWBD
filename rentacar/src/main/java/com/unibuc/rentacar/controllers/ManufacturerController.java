@@ -35,7 +35,7 @@ public class ManufacturerController {
     // ✅ Create a new manufacturer
     @PostMapping
     public ResponseEntity<Manufacturer> createManufacturer(@Valid @RequestBody Manufacturer manufacturer) {
-        Manufacturer savedManufacturer = manufacturerService.saveManufacturer(manufacturer);
+        Manufacturer savedManufacturer = manufacturerService.createManufacturer(manufacturer);
         return ResponseEntity.ok(savedManufacturer);
     }
 

@@ -21,6 +21,6 @@ public class AuditController {
 
     @PostMapping
     public Audit logEvent(@RequestBody String event) {
-        return auditService.createAudit(event);
+        return auditService.logAudit(event);
     }
 }
