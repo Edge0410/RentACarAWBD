@@ -2,10 +2,13 @@ package com.unibuc.rentacar.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Data
+@Table(name = "audit")
 public class Audit {
 
     @Id
