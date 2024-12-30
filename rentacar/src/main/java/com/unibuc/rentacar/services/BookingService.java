@@ -4,7 +4,9 @@ import com.unibuc.rentacar.entities.Booking;
 import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.repositories.BookingRepository;
 import com.unibuc.rentacar.repositories.CarRepository;
+import com.unibuc.rentacar.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ public class BookingService {
     private BookingRepository bookingRepository;
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
@@ -31,6 +35,11 @@ public class BookingService {
     }
 
     public List<Booking> getBookingsByUserId(Integer userId) {
+        boolean userExists = userRepository.existsById(userId);
+        if (!userExists) {
+            throw new RuntimeException("No user found with id: " + userId);
+        }
+
         return bookingRepository.findByUserId(userId);
     }
 

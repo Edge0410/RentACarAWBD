@@ -24,11 +24,18 @@ public class PaymentService {
     }
 
     public Optional<Payment> getPaymentById(Integer id) {
-        return paymentRepository.findById(id);
+        Payment payment = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + id));
+        return Optional.ofNullable(payment);
     }
 
     public List<Payment> getPaymentsByBookingId(Integer bookingId) {
-        return paymentRepository.findByBookingId(bookingId);
+        List<Payment> payments = paymentRepository.findByBookingId(bookingId);
+        if(payments.isEmpty()){
+            throw new RuntimeException("Booking not found with id: " + bookingId);
+        }
+
+        return payments;
     }
 
     public Payment createPayment(Payment payment) {

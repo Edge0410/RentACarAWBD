@@ -22,7 +22,13 @@ public class CarService {
     }
 
     public Optional<Car> getCarById(Integer id) {
-        return carRepository.findById(id);
+        Optional<Car> availableCars = carRepository.findById(id);
+
+        if (availableCars.isEmpty()) {
+            throw new NoAvailableCarsException("No car found with id: " + id);
+        }
+
+        return availableCars;
     }
 
     public List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate) {
