@@ -35,6 +35,8 @@ public class Audit {
         return id;
     }
 
+    public String getEvent() {return event;};
+
     public void setId(Integer id) {
         this.id = id;
     }

@@ -1,6 +1,8 @@
 package com.unibuc.rentacar.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.unibuc.rentacar.entities.Car;
 import com.unibuc.rentacar.entities.Manufacturer;
 import com.unibuc.rentacar.json.FuelType;
@@ -11,10 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +37,7 @@ public class CarControllerTest {
     private CarController carController;
 
     private MockMvc mockMvc;
-
-    @Mock
-    private ObjectMapper objectMapper;
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     private Car mockCar;
     private Car mockCar2;
@@ -105,6 +107,25 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$[0].model").value("Model X"));
 
         verify(carService, times(1)).getAvailableCars(startDate, endDate);
+    }
+
+    @Test
+    void createCar_Returns() throws Exception {
+        when(carService.createCar(mockCar)).thenReturn(mockCar);
+
+        // Serialize the mockCar object into a JSON string using UTF8 Encoding to reproduce Request Body
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = writer.writeValueAsString(mockCar);
+
+        mockMvc.perform(post("/api/cars")
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .content(requestJson))
+                .andExpect(status().isOk());
+
+        // We are not going to verify the returned car as response because the foreign key fields will be marked as null
+        // OK Status is enough since there is not any data manipulation inside controller itself
     }
 
 }
