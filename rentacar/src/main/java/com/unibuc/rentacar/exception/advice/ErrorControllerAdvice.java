@@ -31,4 +31,9 @@ public class ErrorControllerAdvice {
     public ResponseEntity<String> handleDateTimeParseException(DateTimeParseException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(AssertionError.class)
+    public ResponseEntity<String> handleAssertionError(AssertionError ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unauthorized operation");
+    }
 }

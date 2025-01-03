@@ -1,9 +1,13 @@
 package com.unibuc.rentacar.services;
 
+import com.unibuc.rentacar.entities.Booking;
 import com.unibuc.rentacar.entities.Car;
+import com.unibuc.rentacar.entities.Manufacturer;
+import com.unibuc.rentacar.entities.Payment;
 import com.unibuc.rentacar.exception.NoAvailableCarsException;
 import com.unibuc.rentacar.json.FuelType;
 import com.unibuc.rentacar.repositories.CarRepository;
+import com.unibuc.rentacar.repositories.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,9 @@ public class CarService {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
 
     public List<Car> getAllCars() {
         return carRepository.findAll();
@@ -59,7 +66,11 @@ public class CarService {
 
 
     public Car createCar(Car car) {
-        return carRepository.save(car);
+        Integer manufacturerId = car.getManufacturer().getId();
+        Manufacturer manufacturer = manufacturerRepository.findById(manufacturerId)
+                .orElseThrow(() -> new RuntimeException("Manufacturer not found with id: " + manufacturerId));
+        Car completedCar = carRepository.save(car);
+        return completedCar;
     }
 
     public Car updateCar(Integer id, Car carDetails) {
