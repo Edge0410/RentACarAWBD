@@ -2,6 +2,7 @@ package com.unibuc.rentacar.services;
 
 import com.unibuc.rentacar.entities.Booking;
 import com.unibuc.rentacar.entities.Car;
+import com.unibuc.rentacar.entities.User;
 import com.unibuc.rentacar.json.FuelType;
 import com.unibuc.rentacar.repositories.BookingRepository;
 import com.unibuc.rentacar.repositories.CarRepository;
@@ -93,11 +94,18 @@ public class BookingServiceTest {
     @Test
     void createBooking_AvailableCars_Returns() {
 
+        User user = new User();
+        user.setId(1);
+        booking.setUser(user);
+
+        when(userRepository.existsById(user.getId())).thenReturn(true);
         when(carRepository.findAvailableCars(booking.getStartDate(), booking.getEndDate()))
                 .thenReturn(List.of(car1, car2));
         when(carRepository.findAllById(Set.of(1, 2)))
                 .thenReturn(List.of(car1, car2));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+        when(bookingRepository.countActiveCarsByUser(booking.getUser().getId(), booking.getStartDate(), booking.getEndDate()))
+                .thenReturn(0L);
 
         Booking result = bookingService.createBooking(booking);
 
