@@ -45,6 +45,13 @@ public class BookingService {
 
     @Transactional
     public Booking createBooking(Booking booking) {
+
+        // Check if user correlated to the booking exists
+        boolean userExists = userRepository.existsById(booking.getUser().getId());
+        if (!userExists) {
+            throw new RuntimeException("No user found with id: " + booking.getUser().getId());
+        }
+
         // Fetch available cars for the given date range
         List<Car> availableCars = carRepository.findAvailableCars(
                 booking.getStartDate(),
@@ -67,6 +74,21 @@ public class BookingService {
 
         if (!allCarsAvailable) {
             throw new RuntimeException("One or more cars are unavailable for the selected date range.");
+        }
+
+        // 🛡️ Enforce User Rental Limit (Max 5 Cars)
+        long currentActiveCarCount = bookingRepository.countActiveCarsByUser(
+                booking.getUser().getId(),
+                booking.getStartDate(),
+                booking.getEndDate()
+        );
+
+        long newTotalCarCount = currentActiveCarCount + booking.getCars().size();
+
+        if (newTotalCarCount > 5) {
+            throw new RuntimeException("A user cannot have more than 5 rented cars at the same time. "
+                    + "Current active cars: " + currentActiveCarCount
+                    + ", Cars in this booking: " + booking.getCars().size());
         }
 
         // Calculate price section
