@@ -24,13 +24,9 @@ Astfel, utilizatorii autorizati din cadrul acestui business pot vizualiza masini
 ### MVP Phase features
 
 ✅ Gestionarea datelor despre masini (CRUD)
-
 ✅ Gestionarea datelor despre rezervari (CRUD)
-
 ✅ Calcularea automata a costului de inchiriere
-
 ✅ Filtrarea caracteristicilor masinilor sau a interactiunii clientelei
-
 ✅ Autorizarea rezervarilor doar pentru masini disponibile si clienti care nu au mai mult de 5 masini inchiriate simultan.
 
 ## Baza de date a aplicatiei

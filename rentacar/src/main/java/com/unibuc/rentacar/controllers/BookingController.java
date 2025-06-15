@@ -23,7 +23,7 @@ public class BookingController {
     private BookingService bookingService;
 
 
-    @Operation(summary = "Get all bookings", description = "Retrieve a list of all bookings.")
+    @Operation(summary = "Get all bookings", description = "Retrieve a list of all bookings")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of bookings retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)))
@@ -33,7 +33,7 @@ public class BookingController {
         return bookingService.getAllBookings();
     }
 
-    @Operation(summary = "Get booking by ID", description = "Retrieve a specific booking by its ID.")
+    @Operation(summary = "Get booking by ID", description = "Retrieve a specific booking by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Booking retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class))),
@@ -44,7 +44,7 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
-    @Operation(summary = "Get bookings by user ID", description = "Retrieve all bookings associated with a specific user.")
+    @Operation(summary = "Get bookings by user ID", description = "Retrieve all bookings associated with a specific user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Bookings retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class))),
@@ -56,7 +56,7 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
-    @Operation(summary = "Create a booking", description = "Create a new booking with the provided details.")
+    @Operation(summary = "Create a booking", description = "Create a new booking with the provided details")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Booking created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class))),
@@ -67,7 +67,7 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.createBooking(booking));
     }
 
-    @Operation(summary = "Update a booking", description = "Update an existing booking's details.")
+    @Operation(summary = "Update a booking", description = "Update an existing booking details")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Booking updated successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class))),
@@ -78,7 +78,7 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.updateBooking(id, booking));
     }
 
-    @Operation(summary = "Delete a booking", description = "Delete a booking by its ID.")
+    @Operation(summary = "Delete a booking", description = "Delete a booking by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Booking deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Booking not found")

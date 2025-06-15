@@ -17,7 +17,7 @@ public class AuditController {
     @Autowired
     private AuditService auditService;
 
-    @Operation(summary = "View Audit Log", description = "Retrieve all audit events.")
+    @Operation(summary = "View Audit Log", description = "Retrieve all audit events")
     @GetMapping
     public List<Audit> getAllAudits() {
         return auditService.getAllAudits();

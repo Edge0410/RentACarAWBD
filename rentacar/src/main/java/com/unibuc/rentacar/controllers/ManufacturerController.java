@@ -24,7 +24,7 @@ public class ManufacturerController {
     @Autowired
     private ManufacturerService manufacturerService;
 
-    @Operation(summary = "Get all manufacturers", description = "Retrieve a list of all manufacturers.")
+    @Operation(summary = "Get all manufacturers", description = "Retrieve a list of all manufacturers")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of manufacturers retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Manufacturer.class)))
@@ -35,7 +35,7 @@ public class ManufacturerController {
         return ResponseEntity.ok(manufacturers);
     }
 
-    @Operation(summary = "Get manufacturer by ID", description = "Retrieve a specific manufacturer by its ID.")
+    @Operation(summary = "Get manufacturer by ID", description = "Retrieve a specific manufacturer by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Manufacturer retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Manufacturer.class))),
@@ -48,7 +48,7 @@ public class ManufacturerController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Create a new manufacturer", description = "Add a new manufacturer to the system.")
+    @Operation(summary = "Create a new manufacturer", description = "Add a new manufacturer to the system")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Manufacturer created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Manufacturer.class)))
@@ -59,7 +59,7 @@ public class ManufacturerController {
         return ResponseEntity.ok(savedManufacturer);
     }
 
-    @Operation(summary = "Update a manufacturer", description = "Update an existing manufacturer's details.")
+    @Operation(summary = "Update a manufacturer", description = "Update an existing manufacturer details")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Manufacturer updated successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Manufacturer.class))),
@@ -71,7 +71,7 @@ public class ManufacturerController {
         return ResponseEntity.ok(updatedManufacturer);
     }
 
-    @Operation(summary = "Delete a manufacturer", description = "Remove a manufacturer by its ID.")
+    @Operation(summary = "Delete a manufacturer", description = "Remove a manufacturer by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Manufacturer deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Manufacturer not found")

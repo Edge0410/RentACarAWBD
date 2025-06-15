@@ -23,7 +23,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @Operation(summary = "Get all payments", description = "Retrieve a list of all payments.")
+    @Operation(summary = "Get all payments", description = "Retrieve a list of all payments")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of payments retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class)))
@@ -33,7 +33,7 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getAllPayments());
     }
 
-    @Operation(summary = "Get payment by ID", description = "Retrieve a specific payment by its ID.")
+    @Operation(summary = "Get payment by ID", description = "Retrieve a specific payment by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Payment retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class))),
@@ -46,7 +46,7 @@ public class PaymentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Get payments by booking ID", description = "Retrieve all payments associated with a specific booking.")
+    @Operation(summary = "Get payments by booking ID", description = "Retrieve all payments associated with a specific booking")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of payments retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class))),
@@ -57,7 +57,7 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getPaymentsByBookingId(bookingId));
     }
 
-    @Operation(summary = "Create a payment", description = "Add a new payment for a booking.")
+    @Operation(summary = "Create a payment", description = "Add a new payment for a booking")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Payment created successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class))),
@@ -69,7 +69,7 @@ public class PaymentController {
         return ResponseEntity.ok(createdPayment);
     }
 
-    @Operation(summary = "Update a payment", description = "Update the details of an existing payment.")
+    @Operation(summary = "Update a payment", description = "Update the details of an existing payment")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Payment updated successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class))),
@@ -81,7 +81,7 @@ public class PaymentController {
         return ResponseEntity.ok(updatedPayment);
     }
 
-    @Operation(summary = "Delete a payment", description = "Remove a payment by its ID.")
+    @Operation(summary = "Delete a payment", description = "Remove a payment by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Payment deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Payment not found")

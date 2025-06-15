@@ -24,7 +24,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @Operation(summary = "Get all cars", description = "Retrieve a list of all cars.")
+    @Operation(summary = "Get all cars", description = "Retrieve a list of all cars")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)))
@@ -34,7 +34,7 @@ public class CarController {
         return carService.getAllCars();
     }
 
-    @Operation(summary = "Get car by ID", description = "Retrieve a specific car by its ID.")
+    @Operation(summary = "Get car by ID", description = "Retrieve a specific car by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Car retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Car.class))),
@@ -45,7 +45,7 @@ public class CarController {
         return ResponseEntity.ok(carService.getCarById(id).orElseThrow());
     }
 
-    @Operation(summary = "Get available cars by date range", description = "Retrieve cars available between start and end dates.")
+    @Operation(summary = "Get available cars by date range", description = "Retrieve cars available between start and end dates")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of available cars retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)))
@@ -62,7 +62,7 @@ public class CarController {
         return ResponseEntity.ok(availableCars);
     }
 
-    @Operation(summary = "Get available cars with filters", description = "Retrieve cars available between start and end dates, with optional filters.")
+    @Operation(summary = "Get available cars with filters", description = "Retrieve cars available between start and end dates, with optional filters")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "List of filtered available cars retrieved successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Car.class)))
@@ -93,7 +93,7 @@ public class CarController {
         return ResponseEntity.ok(carService.createCar(car));
     }
 
-    @Operation(summary = "Update a car", description = "Update an existing car's details.")
+    @Operation(summary = "Update a car", description = "Update an existing car's details")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Car updated successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Car.class))),
@@ -104,7 +104,7 @@ public class CarController {
         return ResponseEntity.ok(carService.updateCar(id, car));
     }
 
-    @Operation(summary = "Delete a car", description = "Remove a car by its ID.")
+    @Operation(summary = "Delete a car", description = "Remove a car by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Car deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Car not found")
