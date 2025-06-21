@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        select[multiple] {
+            height: 100px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #e53935;
+        }
+
+        .success {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+<h1>Create Booking</h1>
+
+<form id="bookingForm">
+    <label for="userId">User ID:</label>
+    <input type="number" id="userId" name="userId" required>
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <label for="carSelect">Select Available Cars (Hold Ctrl to select multiple):</label>
+    <select id="carSelect" name="carIds" multiple required>
+        <option value="">Select a date range first</option>
+    </select>
+
+    <button type="submit">Create Booking</button>
+
+    <div id="message" class="message"></div>
+</form>
+
+<script>
+    const carSelect = document.getElementById("carSelect");
+
+    async function fetchAvailableCars() {
+        const start = document.getElementById("startDate").value;
+        const end = document.getElementById("endDate").value;
+
+        if (start && end) {
+            try {
+                const res = await fetch(`/api/cars/available?startDate=${start}&endDate=${end}`);
+                const cars = await res.json();
+
+                carSelect.innerHTML = "";
+                cars.forEach(car => {
+                    const option = document.createElement("option");
+                    option.value = car.id;
+                    option.textContent = car.model;
+                    carSelect.appendChild(option);
+                });
+
+                if (cars.length === 0) {
+                    carSelect.innerHTML = "<option disabled>No cars available</option>";
+                }
+            } catch (error) {
+                console.error("Error fetching available cars:", error);
+            }
+        }
+    }
+
+    document.getElementById("startDate").addEventListener("change", fetchAvailableCars);
+    document.getElementById("endDate").addEventListener("change", fetchAvailableCars);
+
+    document.getElementById("bookingForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const userId = document.getElementById("userId").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        const selectedOptions = Array.from(carSelect.selectedOptions);
+        const carIds = selectedOptions.map(option => parseInt(option.value));
+
+        const booking = {
+            user: { id: parseInt(userId) },
+            startDate,
+            endDate,
+            cars: carIds.map(id => ({ id }))
+        };
+
+        try {
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(booking)
+            });
+
+            const messageEl = document.getElementById("message");
+
+            if (response.status === 404) {
+                messageEl.textContent = "Error: Booking is invalid, try again";
+                messageEl.className = "message error";
+            } else if (response.ok) {
+                messageEl.textContent = "Booking created successfully!";
+                messageEl.className = "message success";
+                document.getElementById("bookingForm").reset();
+                carSelect.innerHTML = "<option value=''>Select a date range first</option>";
+            } else {
+                const err = await response.text();
+                messageEl.textContent = "Error: " + err;
+                messageEl.className = "message error";
+            }
+        } catch (error) {
+            document.getElementById("message").textContent = "Unexpected error: " + error.message;
+            document.getElementById("message").className = "message error";
+        }
+    });
+</script>
+
+</body>
+</html>
